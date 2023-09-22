@@ -6,7 +6,9 @@ cap = cv2.VideoCapture(0)
 while(True):
     # Take each frame
     _, frame = cap.read()
-
+    
+    canny=cv2.Canny(frame, 100,200)
+    cv2.imshow('canny',canny)
     # Convert BGR to HSV
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -31,9 +33,9 @@ while(True):
     #feeding the Median Blur masked image into dilation
     dilation = cv2.dilate(median, kernel2, iterations=1)
 
-    
     final=cv2.bitwise_and(frame,frame,mask=dilation)
-
+    finaledge = add(final+canny)
+    
     cv2.imshow('frame',frame)
     cv2.imshow('Final filter',final)
     k = cv2.waitKey(5) & 0xFF
